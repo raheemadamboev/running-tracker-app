@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:text="@string/sort_by"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/filter_spinner"
-        app:layout_constraintEnd_toStartOf="@+id/filter_spinner"
+        app:layout_constraintBottom_toBottomOf="@id/filter_spinner"
+        app:layout_constraintEnd_toStartOf="@id/filter_spinner"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -34,7 +34,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filter_spinner" />
+        app:layout_constraintTop_toBottomOf="@id/filter_spinner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/run_b"
