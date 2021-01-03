@@ -30,7 +30,7 @@ class SetUpFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         binding.continueB.setOnClickListener {
-            findNavController().navigate(R.id.action_setUpFragment_to_runFragment)
+            findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment())
         }
     }
 

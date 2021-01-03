@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -39,6 +40,10 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         activity?.let { activity ->
             requestPermissions(activity)
+        }
+
+        binding.runB.setOnClickListener {
+            findNavController().navigate(RunFragmentDirections.actionRunFragmentToTrackingFragment())
         }
     }
 
