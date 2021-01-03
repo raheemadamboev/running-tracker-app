@@ -27,11 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        navigateTrackingFragment(intent)
-
         // find nav controller in activity
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
         navController = navHostFragment.findNavController()
+
+        navigateTrackingFragment(intent)
 
         // set up navigation bottom
         binding.bottomNavigationView.setupWithNavController(navController)
