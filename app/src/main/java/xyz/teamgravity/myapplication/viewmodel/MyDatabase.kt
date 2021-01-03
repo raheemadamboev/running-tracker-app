@@ -9,6 +9,9 @@ import xyz.teamgravity.myapplication.model.RunModel
 @Database(version = 1, entities = [RunModel::class])
 @TypeConverters(Converter::class)
 abstract class MyDatabase : RoomDatabase() {
+    companion object {
+        const val DATABASE_NAME = "my_database"
+    }
 
     abstract fun runDao(): RunDao
 
