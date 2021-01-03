@@ -9,4 +9,11 @@
 
     <!-- Run fragment -->
     <string name="sort_by">Sort by</string>
+
+    <!-- Set Up fragment -->
+    <string name="welcome_text">Welcome!\nPlease enter your name and weight</string>
+    <string name="your_name">Your name</string>
+    <string name="your_weight">Your weight</string>
+    <string name="kg">kg</string>
+    <string name="continue_text">continue</string>
 </resources>
