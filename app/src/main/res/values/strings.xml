@@ -6,4 +6,7 @@
     <string name="your_runs">Your runs</string>
     <string name="statistics">Statistics</string>
     <string name="settings">Settings</string>
+
+    <!-- Run fragment -->
+    <string name="sort_by">Sort by</string>
 </resources>

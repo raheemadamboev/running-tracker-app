@@ -7,7 +7,7 @@
     tools:context=".fragment.RunFragment">
 
     <Spinner
-        android:id="@+id/spFilter"
+        android:id="@+id/filter_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/filter_options"
@@ -17,36 +17,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvFilterBy"
+        android:id="@+id/filter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sort by:"
+        android:text="@string/sort_by"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/spFilter"
-        app:layout_constraintEnd_toStartOf="@+id/spFilter"
+        app:layout_constraintBottom_toBottomOf="@+id/filter_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/filter_spinner"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRuns"
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/filter_spinner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/run_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorAccent"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@android:color/white"
-        app:tint="@android:color/black" />
+        app:tint="@android:color/black"
+        android:contentDescription="@string/app_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
