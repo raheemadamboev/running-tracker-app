@@ -19,4 +19,14 @@
 
     <!-- Settings fragment -->
     <string name="apply_changes">Apply changes</string>
+
+    <!-- Statistics fragment -->
+    <string name="total_distance">Total distance</string>
+    <string name="zero_km">0 km</string>
+    <string name="total_time">Total time</string>
+    <string name="total_time_start">00:00:00</string>
+    <string name="total_calories_burned">Total calories burned</string>
+    <string name="zero_kcal">0 kcal</string>
+    <string name="average_speed">Average speed</string>
+    <string name="zero_km_hour">0 km/h</string>
 </resources>
