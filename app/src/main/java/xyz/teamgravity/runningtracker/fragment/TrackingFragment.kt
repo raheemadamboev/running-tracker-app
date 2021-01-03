@@ -1,14 +1,17 @@
 package xyz.teamgravity.runningtracker.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.GoogleMap
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
+import xyz.teamgravity.runningtracker.service.TrackingService
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
 
 @AndroidEntryPoint
@@ -23,16 +26,37 @@ class TrackingFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
+
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.mapView.onCreate(savedInstanceState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         binding.apply {
-            mapView.onCreate(savedInstanceState)
 
             mapView.getMapAsync { googleMap ->
                 map = googleMap
             }
 
-            return root
+            activity?.let { activity ->
+                startB.setOnClickListener {
+                    commandService(activity, TrackingService.ACTION_START_OR_RESUME)
+                }
+            }
         }
     }
+
+    private fun commandService(activity: FragmentActivity, action: String) =
+        Intent(activity, TrackingService::class.java).also { intent ->
+            intent.action = action
+            activity.startService(intent)
+        }
 
     override fun onResume() {
         super.onResume()

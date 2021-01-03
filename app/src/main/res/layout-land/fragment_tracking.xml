@@ -21,16 +21,16 @@
             android:id="@+id/timer_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/continue_text"
+            android:text="@string/total_time_start"
             android:textSize="50sp"
-            app:layout_constraintBottom_toTopOf="@id/run_b"
+            app:layout_constraintBottom_toTopOf="@id/start_b"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/run_b"
+            android:id="@+id/start_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start"
@@ -49,7 +49,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@id/run_b"
+            app:layout_constraintStart_toEndOf="@id/start_b"
             app:layout_constraintTop_toBottomOf="@id/timer_t" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
