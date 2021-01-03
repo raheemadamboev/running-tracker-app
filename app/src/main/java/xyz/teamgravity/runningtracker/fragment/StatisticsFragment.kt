@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.fragment
+package xyz.teamgravity.runningtracker.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,19 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import xyz.teamgravity.myapplication.databinding.FragmentRunBinding
-import xyz.teamgravity.myapplication.viewmodel.RunViewModel
+import xyz.teamgravity.runningtracker.databinding.FragmentStatisticsBinding
+import xyz.teamgravity.runningtracker.viewmodel.StatisticsViewModel
 
 @AndroidEntryPoint
-class RunFragment : Fragment() {
+class StatisticsFragment : Fragment() {
 
-    private var _binding: FragmentRunBinding? = null
+    private var _binding: FragmentStatisticsBinding? = null
     private val binding get() = _binding!!
 
-    private val runViewModel: RunViewModel by viewModels()
+    private val statisticsViewModel: StatisticsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentRunBinding.inflate(inflater, container, false)
+        _binding = FragmentStatisticsBinding.inflate(inflater, container, false)
 
         return binding.root
     }

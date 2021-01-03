@@ -1,10 +1,10 @@
-package xyz.teamgravity.myapplication.viewmodel
+package xyz.teamgravity.runningtracker.viewmodel
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import xyz.teamgravity.myapplication.helper.util.Converter
-import xyz.teamgravity.myapplication.model.RunModel
+import xyz.teamgravity.runningtracker.helper.util.Converter
+import xyz.teamgravity.runningtracker.model.RunModel
 
 @Database(version = 1, entities = [RunModel::class])
 @TypeConverters(Converter::class)

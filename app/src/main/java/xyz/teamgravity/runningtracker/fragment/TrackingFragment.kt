@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.fragment
+package xyz.teamgravity.runningtracker.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import xyz.teamgravity.myapplication.databinding.FragmentTrackingBinding
-import xyz.teamgravity.myapplication.viewmodel.RunViewModel
+import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
+import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment() {

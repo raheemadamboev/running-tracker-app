@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.injection
+package xyz.teamgravity.runningtracker.injection
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

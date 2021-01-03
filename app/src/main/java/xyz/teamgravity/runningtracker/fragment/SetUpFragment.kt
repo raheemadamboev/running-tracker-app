@@ -1,20 +1,19 @@
-package xyz.teamgravity.myapplication.fragment
+package xyz.teamgravity.runningtracker.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import xyz.teamgravity.myapplication.databinding.FragmentRunBinding
-import xyz.teamgravity.myapplication.databinding.FragmentSettingsBinding
+import xyz.teamgravity.runningtracker.databinding.FragmentSetUpBinding
 
-class SettingsFragment : Fragment() {
+class SetUpFragment : Fragment() {
 
-    private var _binding: FragmentSettingsBinding? = null
+    private var _binding : FragmentSetUpBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        _binding = FragmentSetUpBinding.inflate(inflater, container, false)
 
         return binding.root
     }

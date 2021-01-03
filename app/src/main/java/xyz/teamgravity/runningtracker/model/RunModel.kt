@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.model
+package xyz.teamgravity.runningtracker.model
 
 import android.graphics.Bitmap
 import androidx.room.Entity

@@ -1,8 +1,6 @@
-package xyz.teamgravity.myapplication.viewmodel
+package xyz.teamgravity.runningtracker.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.room.Query
-import xyz.teamgravity.myapplication.model.RunModel
+import xyz.teamgravity.runningtracker.model.RunModel
 import javax.inject.Inject
 
 class RunRepository @Inject constructor(

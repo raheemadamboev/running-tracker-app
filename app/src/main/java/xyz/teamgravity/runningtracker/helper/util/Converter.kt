@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.helper.util
+package xyz.teamgravity.runningtracker.helper.util
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

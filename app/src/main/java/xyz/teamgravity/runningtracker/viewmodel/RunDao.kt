@@ -1,8 +1,8 @@
-package xyz.teamgravity.myapplication.viewmodel
+package xyz.teamgravity.runningtracker.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import xyz.teamgravity.myapplication.model.RunModel
+import xyz.teamgravity.runningtracker.model.RunModel
 
 @Dao
 interface RunDao {

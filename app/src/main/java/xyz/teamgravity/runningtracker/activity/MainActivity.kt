@@ -1,11 +1,10 @@
-package xyz.teamgravity.myapplication.activity
+package xyz.teamgravity.runningtracker.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import dagger.hilt.android.AndroidEntryPoint
-import xyz.teamgravity.myapplication.R
-import xyz.teamgravity.myapplication.databinding.ActivityMainBinding
-import xyz.teamgravity.myapplication.viewmodel.RunDao
+import xyz.teamgravity.runningtracker.databinding.ActivityMainBinding
+import xyz.teamgravity.runningtracker.viewmodel.RunDao
 import javax.inject.Inject
 
 @AndroidEntryPoint

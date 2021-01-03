@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.injection
+package xyz.teamgravity.runningtracker.injection
 
 import android.content.Context
 import androidx.room.Room
@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import xyz.teamgravity.myapplication.viewmodel.MyDatabase
+import xyz.teamgravity.runningtracker.viewmodel.MyDatabase
 import javax.inject.Singleton
 
 @Module

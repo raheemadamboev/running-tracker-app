@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication.viewmodel
+package xyz.teamgravity.runningtracker.viewmodel
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel

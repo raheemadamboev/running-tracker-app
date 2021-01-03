@@ -1,4 +1,4 @@
-package xyz.teamgravity.myapplication
+package xyz.teamgravity.runningtracker
 
 import org.junit.Test
 
