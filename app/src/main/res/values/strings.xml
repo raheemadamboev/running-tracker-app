@@ -16,4 +16,7 @@
     <string name="your_weight">Your weight</string>
     <string name="kg">kg</string>
     <string name="continue_text">continue</string>
+
+    <!-- Settings fragment -->
+    <string name="apply_changes">Apply changes</string>
 </resources>
