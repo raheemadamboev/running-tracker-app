@@ -2,8 +2,10 @@ package xyz.teamgravity.runningtracker.helper.util
 
 import android.Manifest
 import android.content.Context
+import android.location.Location
 import android.os.Build
 import pub.devrel.easypermissions.EasyPermissions
+import xyz.teamgravity.runningtracker.service.Polyline
 import java.util.*
 
 object Helper {
@@ -42,5 +44,29 @@ object Helper {
         } else {
             String.format(Locale.getDefault(), "%02d:%02d:%02d", hour, minute, second)
         }
+    }
+
+    /**
+     * adds all distance in polylines (list of LatLng) in meters
+     */
+    fun calculatePolylineLength(polyline: Polyline): Float {
+        var distance = 0F
+
+        for (i in 0..polyline.size - 2) {
+            val pos1 = polyline[i]
+            val pos2 = polyline[i + 1]
+
+            val result = FloatArray(1)
+            Location.distanceBetween(
+                pos1.latitude,
+                pos1.longitude,
+                pos2.latitude,
+                pos2.longitude,
+                result
+            )
+            distance += result[0]
+        }
+
+        return distance
     }
 }

@@ -1,5 +1,8 @@
 package xyz.teamgravity.runningtracker.viewmodel
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import xyz.teamgravity.runningtracker.model.RunModel
 import javax.inject.Inject
 
@@ -7,9 +10,17 @@ class RunRepository @Inject constructor(
     private val dao: RunDao
 ) {
 
-    suspend fun insert(run: RunModel) = dao.insert(run)
+    fun insert(run: RunModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.insert(run)
+        }
+    }
 
-    suspend fun delete(run: RunModel) = dao.delete(run)
+    fun delete(run: RunModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+            dao.delete(run)
+        }
+    }
 
     fun getAllRunsSortedByDate() = dao.getAllRunsSortedByDate()
 

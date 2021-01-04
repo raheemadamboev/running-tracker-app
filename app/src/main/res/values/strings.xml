@@ -39,6 +39,7 @@
     <string name="wanna_cancel_run">Are you sure to cancel the current run and delete its data?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="run_saved">Run saved successfully</string>
 
     <!-- Set up fragment -->
     <string name="permission_reminder">You need to grant these permissions to use this app</string>
