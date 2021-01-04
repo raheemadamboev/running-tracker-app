@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.os.Build
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.*
 
 object Helper {
 
@@ -25,4 +26,21 @@ object Helper {
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
         }
+
+
+    /**
+     * return formatted time for stop watch
+     */
+    fun formatStopwatch(ms: Long, includeMillis: Boolean = false): String {
+        val hour = (ms / 1000) / 60 / 60
+        val minute = (ms / 1000) / 60 % 60
+        val second = (ms / 1000) % 60
+
+        return if (includeMillis) {
+            val milliseconds = ms % 1000
+            String.format(Locale.getDefault(), "%02d:%02d:%02d:%02d", hour, minute, second, milliseconds)
+        } else {
+            String.format(Locale.getDefault(), "%02d:%02d:%02d", hour, minute, second)
+        }
+    }
 }

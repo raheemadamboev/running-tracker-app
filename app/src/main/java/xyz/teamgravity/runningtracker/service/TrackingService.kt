@@ -13,6 +13,10 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.activity.MainActivity
 import xyz.teamgravity.runningtracker.helper.util.Helper
@@ -31,13 +35,24 @@ class TrackingService : LifecycleService() {
         const val LOCATION_UPDATE_INTERVAL = 5000L
         const val FASTEST_LOCATION_INTERVAL = 2000L
 
+        const val TIMER_UPDATE_INTERVAL = 50L
+
         val isTracking = MutableLiveData<Boolean>()
         val pathPoints = MutableLiveData<Polylines>()
+        val timeRunInMillis = MutableLiveData<Long>()
     }
 
-    var isFirstRun = true
+    private var isFirstRun = true
+    private var timerIsEnabled = false
+    private var lapTime = 0L
+    private var totalTime = 0L
+    private var timeStarted = 0L
+    private var lastSecondTimestamp = 0L
 
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    // counter for service notification
+    private val timeRunInSeconds = MutableLiveData<Long>()
 
     @SuppressLint("VisibleForTests")
     override fun onCreate() {
@@ -59,7 +74,7 @@ class TrackingService : LifecycleService() {
                         println("debug: Started service")
                         isFirstRun = false
                     } else {
-                        startForegroundService()
+                        startTimer()
                         println("debug: Resumed service")
                     }
                 }
@@ -76,10 +91,37 @@ class TrackingService : LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    private fun startTimer() {
+        addEmptyPolyline()
+        isTracking.postValue(true)
+        timeStarted = System.currentTimeMillis()
+        timerIsEnabled = true
+
+        CoroutineScope(Dispatchers.Main).launch {
+            while (isTracking.value!!) {
+                // time difference between now and timeStarted
+                lapTime = System.currentTimeMillis() - timeStarted
+                // post the new lap time
+                timeRunInMillis.postValue(totalTime + lapTime)
+
+                if (timeRunInMillis.value!! >= lastSecondTimestamp + 1000L) {
+                    timeRunInSeconds.postValue(timeRunInSeconds.value!! + 1)
+                    lastSecondTimestamp += 1000L
+                }
+
+                delay(TIMER_UPDATE_INTERVAL)
+            }
+
+            totalTime += lapTime
+        }
+    }
+
     // default values
     private fun postInitialValues() {
         isTracking.postValue(false)
         pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
     }
 
     // when we stop tracking we need to add empty polyline
@@ -134,7 +176,7 @@ class TrackingService : LifecycleService() {
 
     // start foreground service
     private fun startForegroundService() {
-        addEmptyPolyline()
+        startTimer()
 
         isTracking.postValue(true)
 
@@ -151,6 +193,7 @@ class TrackingService : LifecycleService() {
 
     private fun pauseService() {
         isTracking.postValue(false)
+        timerIsEnabled = false
     }
 
     private fun mainActivityPendingIntent() =

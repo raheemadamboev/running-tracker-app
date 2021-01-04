@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
+import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.service.Polyline
 import xyz.teamgravity.runningtracker.service.TrackingService
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
@@ -36,6 +37,7 @@ class TrackingFragment : Fragment() {
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
+    private var currentTimeInMillis = 0L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
@@ -78,6 +80,11 @@ class TrackingFragment : Fragment() {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
+        }
+
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
+            currentTimeInMillis = it
+            binding.timerT.text = Helper.formatStopwatch(currentTimeInMillis, true)
         }
     }
 
