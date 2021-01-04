@@ -38,7 +38,7 @@ object Helper {
 
         return if (includeMillis) {
             val milliseconds = ms % 1000
-            String.format(Locale.getDefault(), "%02d:%02d:%02d:%02d", hour, minute, second, milliseconds)
+            String.format(Locale.getDefault(), "%02d:%02d:%02d:%03d", hour, minute, second, milliseconds)
         } else {
             String.format(Locale.getDefault(), "%02d:%02d:%02d", hour, minute, second)
         }
