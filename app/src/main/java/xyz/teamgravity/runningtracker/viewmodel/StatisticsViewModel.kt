@@ -4,6 +4,14 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 
 class StatisticsViewModel @ViewModelInject constructor(
-    val repository: RunRepository
-): ViewModel() {
+    private val repository: RunRepository
+) : ViewModel() {
+
+    fun getTotalDuration() = repository.getTotalDuration()
+
+    fun getTotalCaloriesBurned() = repository.getTotalCaloriesBurned()
+
+    fun getTotalDistanceInMeters() = repository.getTotalDistanceInMeters()
+
+    fun getTotalAverageSpeed() = repository.getTotalAverageSpeed()
 }
