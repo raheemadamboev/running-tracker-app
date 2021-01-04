@@ -34,6 +34,11 @@
     <string name="start">Start</string>
     <string name="finish_run">Finish run</string>
     <string name="stop">Stop</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_run">Cancel the run?</string>
+    <string name="wanna_cancel_run">Are you sure to cancel the current run and delete its data?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Set up fragment -->
     <string name="permission_reminder">You need to grant these permissions to use this app</string>

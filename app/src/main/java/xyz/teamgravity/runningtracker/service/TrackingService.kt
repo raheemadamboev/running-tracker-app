@@ -47,6 +47,7 @@ class TrackingService : LifecycleService() {
     }
 
     private var isFirstRun = true
+    private var serviceKilled = false
     private var timerIsEnabled = false
     private var lapTime = 0L
     private var totalTime = 0L
@@ -75,8 +76,10 @@ class TrackingService : LifecycleService() {
         postInitialValues()
 
         isTracking.observe(this) {
-            updateLocationTracking(it)
-            updateNotification(it)
+            if (!serviceKilled) {
+                updateLocationTracking(it)
+                updateNotification(it)
+            }
         }
     }
 
@@ -99,8 +102,10 @@ class TrackingService : LifecycleService() {
                     println("debug: Paused service")
                 }
 
-                ACTION_STOP ->
+                ACTION_STOP -> {
                     println("debug: Stopped service")
+                    killService()
+                }
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -160,6 +165,16 @@ class TrackingService : LifecycleService() {
             )
 
         notificationManager.notify(App.NOTIFICATION_ID, currentNotificationBuilder.build())
+    }
+
+    // stop service
+    private fun killService() {
+        serviceKilled = true
+        isFirstRun = true
+        pauseService()
+        postInitialValues()
+        stopForeground(true)
+        stopSelf()
     }
 
     // default values
@@ -230,10 +245,12 @@ class TrackingService : LifecycleService() {
 
         // update notification
         timeRunInSeconds.observe(this) {
-            val notification = currentNotificationBuilder
-                .setContentText(Helper.formatStopwatch(it * 1000L))
+            if (!serviceKilled) {
+                val notification = currentNotificationBuilder
+                    .setContentText(Helper.formatStopwatch(it * 1000L))
 
-            notificationManager.notify(App.NOTIFICATION_ID, notification.build())
+                notificationManager.notify(App.NOTIFICATION_ID, notification.build())
+            }
         }
     }
 

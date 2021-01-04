@@ -3,15 +3,15 @@ package xyz.teamgravity.runningtracker.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
@@ -34,6 +34,7 @@ class TrackingFragment : Fragment() {
     private val runViewModel by viewModels<RunViewModel>()
 
     private var map: GoogleMap? = null
+    private var menu: Menu? = null
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
@@ -41,7 +42,7 @@ class TrackingFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
-
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -92,6 +93,7 @@ class TrackingFragment : Fragment() {
         if (isTracking) {
             commandService(activity, TrackingService.ACTION_PAUSE)
         } else {
+            menu?.getItem(0)?.isVisible = true
             commandService(activity, TrackingService.ACTION_START_OR_RESUME)
         }
     }
@@ -105,6 +107,7 @@ class TrackingFragment : Fragment() {
                     startB.text = resources.getString(R.string.stop)
                     finishB.visibility = View.GONE
                 } else {
+                    menu?.getItem(0)?.isVisible = true
                     startB.text = resources.getString(R.string.start)
                     finishB.visibility = View.VISIBLE
                 }
@@ -152,6 +155,49 @@ class TrackingFragment : Fragment() {
             intent.action = action
             activity.startService(intent)
         }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.tracking_fragment_menu, menu)
+        this.menu = menu
+    }
+
+    // check if we run
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (currentTimeInMillis > 0L) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.cancel_tracking ->
+                activity?.let {
+                    showCancelDialog(it)
+                }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    // show cancel dialog
+    private fun showCancelDialog(activity: FragmentActivity) {
+        MaterialAlertDialogBuilder(activity, R.style.AlertDialogTheme)
+            .setTitle(R.string.cancel_run)
+            .setMessage(R.string.wanna_cancel_run)
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                stopRun(activity)
+            }.setNegativeButton(R.string.no) { _, _ ->
+
+            }.show()
+    }
+
+    // stop run
+    private fun stopRun(activity: FragmentActivity) {
+        commandService(activity, TrackingService.ACTION_STOP)
+        findNavController().navigate(TrackingFragmentDirections.actionTrackingFragmentToRunFragment())
+    }
 
     override fun onResume() {
         super.onResume()
