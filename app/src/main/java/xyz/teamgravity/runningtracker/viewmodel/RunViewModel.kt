@@ -8,17 +8,13 @@ class RunViewModel @ViewModelInject constructor(
     private val repository: RunRepository
 ) : ViewModel() {
 
+    private val allRunsSortedByDate = repository.getAllRunsSortedByDate()
+    private val allRunsSortedByDuration = repository.getAllRunsSortedByDuration()
+    private val allRunsSortedByCaloriesBurned = repository.getAllRunsSortedByCaloriesBurned()
+    private val allRunsSortedByAverageSpeed = repository.getAllRunsSortedByAverageSpeed()
+    private val allRunsSortedByDistance = repository.getAllRunsSortedByDistance()
+
     fun insert(run: RunModel) = repository.insert(run)
 
     fun delete(run: RunModel) = repository.delete(run)
-
-    fun getAllRunsSortedByDate() = repository.getAllRunsSortedByDate()
-
-    fun getAllRunsSortedByDuration() = repository.getAllRunsSortedByDuration()
-
-    fun getAllRunsSortedByCaloriesBurned() = repository.getAllRunsSortedByCaloriesBurned()
-
-    fun getAllRunsSortedByAverageSpeed() = repository.getAllRunsSortedByAverageSpeed()
-
-    fun getAllRunsSortedByDistance() = repository.getAllRunsSortedByDistance()
 }
