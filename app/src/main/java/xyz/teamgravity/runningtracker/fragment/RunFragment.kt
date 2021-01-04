@@ -15,6 +15,7 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentRunBinding
+import xyz.teamgravity.runningtracker.helper.adapter.RunAdapter
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
 
@@ -29,6 +30,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val runViewModel by viewModels<RunViewModel>()
 
+    private lateinit var adapter: RunAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRunBinding.inflate(inflater, container, false)
 
@@ -40,10 +43,20 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         activity?.let { activity ->
             requestPermissions(activity)
+            recyclerView()
         }
 
         binding.runB.setOnClickListener {
             findNavController().navigate(RunFragmentDirections.actionRunFragmentToTrackingFragment())
+        }
+    }
+
+    private fun recyclerView() {
+        adapter = RunAdapter()
+        binding.recyclerView.adapter = adapter
+
+        runViewModel.getAllRunsSortedByDate().observe(viewLifecycleOwner) {
+            adapter.submitList(it)
         }
     }
 

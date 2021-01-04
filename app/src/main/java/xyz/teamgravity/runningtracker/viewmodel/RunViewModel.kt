@@ -11,4 +11,6 @@ class RunViewModel @ViewModelInject constructor(
     fun insert(run: RunModel) = repository.insert(run)
 
     fun delete(run: RunModel) = repository.delete(run)
+
+    fun getAllRunsSortedByDate() = repository.getAllRunsSortedByDate()
 }
