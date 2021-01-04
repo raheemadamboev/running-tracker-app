@@ -25,7 +25,7 @@ class TrackingFragment : Fragment() {
     companion object {
         private const val POLYLINE_COLOR = Color.RED
         private const val POLYLINE_WIDTH = 8F
-        private const val MAP_ZOOM = 15F
+        private const val MAP_ZOOM = 17F
     }
 
     private var _binding: FragmentTrackingBinding? = null

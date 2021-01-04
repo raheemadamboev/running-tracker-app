@@ -37,4 +37,8 @@
 
     <!-- Set up fragment -->
     <string name="permission_reminder">You need to grant these permissions to use this app</string>
+
+    <!-- Tracking service -->
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
 </resources>
