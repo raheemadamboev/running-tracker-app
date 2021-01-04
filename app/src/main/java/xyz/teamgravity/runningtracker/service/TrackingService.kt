@@ -59,12 +59,15 @@ class TrackingService : LifecycleService() {
                         println("debug: Started service")
                         isFirstRun = false
                     } else {
+                        startForegroundService()
                         println("debug: Resumed service")
                     }
                 }
 
-                ACTION_PAUSE ->
+                ACTION_PAUSE -> {
+                    pauseService()
                     println("debug: Paused service")
+                }
 
                 ACTION_STOP ->
                     println("debug: Stopped service")
@@ -144,6 +147,10 @@ class TrackingService : LifecycleService() {
             .setContentIntent(mainActivityPendingIntent())
 
         startForeground(App.NOTIFICATION_ID, notificationBuilder.build())
+    }
+
+    private fun pauseService() {
+        isTracking.postValue(false)
     }
 
     private fun mainActivityPendingIntent() =

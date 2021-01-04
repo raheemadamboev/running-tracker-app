@@ -33,6 +33,7 @@
     <!-- Tracking fragment -->
     <string name="start">Start</string>
     <string name="finish_run">Finish run</string>
+    <string name="stop">Stop</string>
 
     <!-- Set up fragment -->
     <string name="permission_reminder">You need to grant these permissions to use this app</string>
