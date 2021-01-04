@@ -13,4 +13,12 @@ class RunViewModel @ViewModelInject constructor(
     fun delete(run: RunModel) = repository.delete(run)
 
     fun getAllRunsSortedByDate() = repository.getAllRunsSortedByDate()
+
+    fun getAllRunsSortedByDuration() = repository.getAllRunsSortedByDuration()
+
+    fun getAllRunsSortedByCaloriesBurned() = repository.getAllRunsSortedByCaloriesBurned()
+
+    fun getAllRunsSortedByAverageSpeed() = repository.getAllRunsSortedByAverageSpeed()
+
+    fun getAllRunsSortedByDistance() = repository.getAllRunsSortedByDistance()
 }
