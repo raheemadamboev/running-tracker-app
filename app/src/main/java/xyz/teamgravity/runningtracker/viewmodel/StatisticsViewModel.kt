@@ -7,6 +7,8 @@ class StatisticsViewModel @ViewModelInject constructor(
     private val repository: RunRepository
 ) : ViewModel() {
 
+    fun getAllRunsSortedByDate() = repository.getAllRunsSortedByDate()
+
     fun getTotalDuration() = repository.getTotalDuration()
 
     fun getTotalCaloriesBurned() = repository.getTotalCaloriesBurned()
