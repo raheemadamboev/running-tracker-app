@@ -69,4 +69,9 @@ object Helper {
 
         return distance
     }
+
+    /**
+     * add two string with empty space
+     */
+    fun addTwoString(one: String, two: String) = "$one $two"
 }

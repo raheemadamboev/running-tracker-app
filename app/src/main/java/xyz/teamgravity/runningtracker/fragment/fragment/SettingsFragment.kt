@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentSettingsBinding
 import xyz.teamgravity.runningtracker.helper.constants.Preferences
+import xyz.teamgravity.runningtracker.helper.util.Helper
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,8 +24,10 @@ class SettingsFragment : Fragment() {
 
     @Inject
     lateinit var shp: SharedPreferences
+
     @Inject
     lateinit var name: String
+
     @set:Inject
     var weight = 0F
 
@@ -38,9 +41,9 @@ class SettingsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activity?.let { activity ->
+        activity?.let {
             updateUI()
-            button(activity)
+            button(it)
         }
     }
 
@@ -85,7 +88,8 @@ class SettingsFragment : Fragment() {
                     .putFloat(Preferences.USER_WEIGHT, weight.toFloat())
                     .apply()
 
-                activity.findViewById<MaterialTextView>(R.id.toolbar_t).text = "Let's go $name"
+                activity.findViewById<MaterialTextView>(R.id.toolbar_t).text =
+                    Helper.addTwoString(resources.getString(R.string.lets_go), name)
                 Snackbar.make(parentLayout, R.string.successfully_saved, Snackbar.LENGTH_SHORT).show()
             }
         }
