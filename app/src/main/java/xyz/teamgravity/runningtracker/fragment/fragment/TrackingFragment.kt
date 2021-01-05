@@ -1,7 +1,6 @@
 package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -17,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
 import xyz.teamgravity.runningtracker.fragment.dialog.CancelTrackingDialog
+import xyz.teamgravity.runningtracker.helper.constants.MapGoogle
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.model.RunModel
 import xyz.teamgravity.runningtracker.service.Polyline
@@ -28,10 +28,6 @@ import kotlin.math.round
 @AndroidEntryPoint
 class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListener {
     companion object {
-        private const val POLYLINE_COLOR = Color.RED
-        private const val POLYLINE_WIDTH = 8F
-        private const val MAP_ZOOM = 17F
-
         private const val CANCEL_DIALOG = "cancelDialog"
     }
 
@@ -48,18 +44,14 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     private var currentTimeInMillis = 0L
 
     @set:Inject
-    var weight = 80F
+    var weight = 75F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
+        binding.mapView.onCreate(savedInstanceState)
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.mapView.onCreate(savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -71,24 +63,25 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
                 dialog?.listener = this@TrackingFragment
             }
 
-            mapView.getMapAsync { googleMap ->
-                map = googleMap
-                addAllPolylines()
-            }
-
-            subscribeToObservers()
-
-            activity?.let { activity ->
-                startB.setOnClickListener {
-                    toggleRun(activity)
-                }
-
-                finishB.setOnClickListener {
-                    zoomToSeeWholeTrack()
-                    endRun(activity)
-                }
+            activity?.let {
+                googleMap()
+                button(it)
+                subscribeToObservers()
             }
         }
+    }
+
+    // set google map
+    private fun googleMap() {
+        binding.mapView.getMapAsync { googleMap ->
+            map = googleMap
+            addAllPolylines()
+        }
+    }
+
+    private fun button(activity: FragmentActivity) {
+        onRun(activity)
+        onFinish(activity)
     }
 
     // get data from service, subscribe
@@ -120,20 +113,24 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
 
         if (isAdded) {
             binding.apply {
-                map?.moveCamera(
-                    CameraUpdateFactory.newLatLngBounds(
-                        bounds.build(),
-                        mapView.width,
-                        mapView.height,
-                        (mapView.height * 0.05F).toInt()
+                try {
+                    map?.moveCamera(
+                        CameraUpdateFactory.newLatLngBounds(
+                            bounds.build(),
+                            mapView.width,
+                            mapView.height,
+                            (mapView.height * 0.05F).toInt()
+                        )
                     )
-                )
+                } catch (e: IllegalStateException) {
+                    e.printStackTrace()
+                }
             }
         }
     }
 
-    // end run save db
-    private fun endRun(activity: FragmentActivity) {
+    // end run, service and save db
+    private fun finishRun(activity: FragmentActivity) {
         map?.snapshot { bitmap ->
             var distanceInMeters = 0
 
@@ -160,6 +157,7 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
         }
     }
 
+    // run button
     private fun toggleRun(activity: FragmentActivity) {
         if (isTracking) {
             commandService(activity, TrackingService.ACTION_PAUSE)
@@ -169,7 +167,7 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
         }
     }
 
-    // update tracking
+    // update isTracking, buttons from service
     private fun updateTracking(isTracking: Boolean) {
         if (isAdded) {
             binding.apply {
@@ -189,7 +187,7 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     // moves screen(camera) to the user when location changes
     private fun moveCameraToUser() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), MAP_ZOOM))
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(pathPoints.last().last(), MapGoogle.MAP_ZOOM))
         }
     }
 
@@ -197,8 +195,8 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     private fun addAllPolylines() {
         for (polyline in pathPoints) {
             val polylineOptions = PolylineOptions()
-                .color(POLYLINE_COLOR)
-                .width(POLYLINE_WIDTH)
+                .color(MapGoogle.POLYLINE_COLOR)
+                .width(MapGoogle.POLYLINE_WIDTH)
                 .addAll(polyline)
 
             map?.addPolyline(polylineOptions)
@@ -211,8 +209,8 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
             val polyLineOptions = PolylineOptions()
-                .color(POLYLINE_COLOR)
-                .width(POLYLINE_WIDTH)
+                .color(MapGoogle.POLYLINE_COLOR)
+                .width(MapGoogle.POLYLINE_WIDTH)
                 .add(preLastLatLng)
                 .add(lastLatLng)
 
@@ -221,11 +219,38 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     }
 
     // start service
-    private fun commandService(activity: FragmentActivity, action: String) =
-        Intent(activity, TrackingService::class.java).also { intent ->
-            intent.action = action
-            activity.startService(intent)
+    private fun commandService(activity: FragmentActivity, action: String) {
+        val intent = Intent(activity, TrackingService::class.java)
+        intent.action = action
+        activity.startService(intent)
+    }
+
+    // stop run, kill service
+    private fun stopRun(activity: FragmentActivity) {
+        binding.timerT.text = resources.getString(R.string.countdown_extended)
+        commandService(activity, TrackingService.ACTION_STOP)
+        findNavController().navigate(TrackingFragmentDirections.actionTrackingFragmentToRunFragment())
+    }
+
+    // run/start button
+    private fun onRun(activity: FragmentActivity) {
+        binding.startB.setOnClickListener {
+            toggleRun(activity)
         }
+    }
+
+    // finish button
+    private fun onFinish(activity: FragmentActivity) {
+        binding.finishB.setOnClickListener {
+            zoomToSeeWholeTrack()
+            finishRun(activity)
+        }
+    }
+
+    // dialog positive button
+    override fun onTrackingCancelDialogPositiveClick() {
+        activity?.let { stopRun(it) }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -251,20 +276,6 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
 
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    // stop run
-    private fun stopRun(activity: FragmentActivity) {
-        binding.timerT.text = resources.getString(R.string.countdown_extended)
-        commandService(activity, TrackingService.ACTION_STOP)
-        findNavController().navigate(TrackingFragmentDirections.actionTrackingFragmentToRunFragment())
-    }
-
-    // dialog positive button
-    override fun onPositive() {
-        activity?.let {
-            stopRun(it)
-        }
     }
 
     override fun onResume() {

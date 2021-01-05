@@ -27,7 +27,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(@ApplicationContext app: Context) =
+    fun provideSharedPreferences(@ApplicationContext app: Context): SharedPreferences =
         app.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE)
 
     @Singleton
@@ -36,7 +36,7 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideUserWeight(shp: SharedPreferences) = shp.getFloat(Preferences.USER_WEIGHT, 0F)
+    fun provideUserWeight(shp: SharedPreferences) = shp.getFloat(Preferences.USER_WEIGHT, 75F)
 
     @Singleton
     @Provides
