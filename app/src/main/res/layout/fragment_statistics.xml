@@ -42,7 +42,7 @@
         android:id="@+id/total_time_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/total_time_start"
+        android:text="@string/countdown_simple"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/total_time_text"
         app:layout_constraintEnd_toStartOf="@+id/vertical_guide"

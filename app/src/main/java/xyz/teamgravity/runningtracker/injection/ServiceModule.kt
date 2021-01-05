@@ -49,6 +49,6 @@ object ServiceModule {
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_run)
             .setContentTitle(app.resources.getString(R.string.app_name))
-            .setContentText(app.resources.getString(R.string.total_time_start))
+            .setContentText(app.resources.getString(R.string.countdown_extended))
             .setContentIntent(pendingIntent)
 }

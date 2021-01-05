@@ -41,7 +41,7 @@
         android:id="@+id/total_time_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/total_time_start"
+        android:text="@string/countdown_extended"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/horizontal_guideline"
         app:layout_constraintEnd_toEndOf="@id/total_calories_t"

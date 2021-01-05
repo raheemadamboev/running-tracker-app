@@ -44,31 +44,50 @@ class StatisticsFragment : Fragment() {
     }
 
     private fun updateUI(activity: FragmentActivity) {
+        updateTotalDistance()
+        updateTotalDuration()
+        updateAverageSpeed()
+        updateCaloriesBurned()
+
+        updateBarChart(activity)
+    }
+
+    private fun updateTotalDuration() {
+        statisticsViewModel.getTotalDuration().observe(viewLifecycleOwner) {
+            it?.let { totalRun ->
+                binding.totalTimeT.text = Helper.formatStopwatch(totalRun)
+            }
+        }
+    }
+
+    private fun updateTotalDistance() {
+        statisticsViewModel.getTotalDistanceInMeters().observe(viewLifecycleOwner) {
+            it?.let { totalDistance ->
+                binding.totalDistanceT.text =
+                    Helper.addTwoString((round((totalDistance / 1000F) * 10F) / 10F).toString(), resources.getString(R.string.km))
+            }
+        }
+    }
+
+    private fun updateAverageSpeed() {
+        statisticsViewModel.getTotalAverageSpeed().observe(viewLifecycleOwner) {
+            it?.let { averageSpeed ->
+                binding.averageSpeedT.text =
+                    Helper.addTwoString((round(averageSpeed * 10F) / 10F).toString(), resources.getString(R.string.km_hour))
+            }
+        }
+    }
+
+    private fun updateCaloriesBurned() {
+        statisticsViewModel.getTotalCaloriesBurned().observe(viewLifecycleOwner) {
+            it?.let { totalCalories ->
+                binding.totalCaloriesT.text = Helper.addTwoString(totalCalories.toString(), resources.getString(R.string.kcal))
+            }
+        }
+    }
+
+    private fun updateBarChart(activity: FragmentActivity) {
         binding.apply {
-            statisticsViewModel.getTotalDuration().observe(viewLifecycleOwner) {
-                it?.let { totalRun ->
-                    totalTimeT.text = Helper.formatStopwatch(totalRun)
-                }
-            }
-
-            statisticsViewModel.getTotalDistanceInMeters().observe(viewLifecycleOwner) {
-                it?.let { totalDistance ->
-                    totalDistanceT.text = "${round((totalDistance / 1000F) * 10F) / 10F} km"
-                }
-            }
-
-            statisticsViewModel.getTotalAverageSpeed().observe(viewLifecycleOwner) {
-                it?.let { averageSpeed ->
-                    averageSpeedT.text = "${round(averageSpeed * 10F) / 10F} km/hour"
-                }
-            }
-
-            statisticsViewModel.getTotalCaloriesBurned().observe(viewLifecycleOwner) {
-                it?.let { totalCalories ->
-                    totalCaloriesT.text = "$totalCalories kcal"
-                }
-            }
-
             barChart.xAxis.apply {
                 position = XAxis.XAxisPosition.BOTTOM
                 setDrawLabels(false)
@@ -90,13 +109,13 @@ class StatisticsFragment : Fragment() {
             }
 
             barChart.apply {
-                description.text = "Avg speed over time"
+                description.text = resources.getString(R.string.average_speed_over_time)
                 legend.isEnabled = false
             }
 
             statisticsViewModel.getAllRunsSortedByDate().observe(viewLifecycleOwner) {
                 val allAverageSpeed = it.indices.map { i -> BarEntry(i.toFloat(), it[i].averageSpeedInKmh) }
-                val barDataSet = BarDataSet(allAverageSpeed, "Avg speed over time").apply {
+                val barDataSet = BarDataSet(allAverageSpeed, resources.getString(R.string.average_speed_over_time)).apply {
                     valueTextColor = Color.WHITE
                     color = ContextCompat.getColor(activity, R.color.yellow)
                 }

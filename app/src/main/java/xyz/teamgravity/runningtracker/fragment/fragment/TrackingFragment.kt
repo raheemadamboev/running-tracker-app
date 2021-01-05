@@ -255,7 +255,7 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
 
     // stop run
     private fun stopRun(activity: FragmentActivity) {
-        binding.timerT.text = resources.getString(R.string.total_time_start)
+        binding.timerT.text = resources.getString(R.string.countdown_extended)
         commandService(activity, TrackingService.ACTION_STOP)
         findNavController().navigate(TrackingFragmentDirections.actionTrackingFragmentToRunFragment())
     }
