@@ -6,12 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.databinding.CardRunBinding
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.model.RunModel
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RunAdapter : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -21,12 +24,17 @@ class RunAdapter : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK
             }
 
             override fun areContentsTheSame(oldItem: RunModel, newItem: RunModel): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
+                return oldItem.averageSpeedInKmh == newItem.averageSpeedInKmh
+                        && oldItem.caloriesBurned == newItem.caloriesBurned
+                        && oldItem.distanceInMeters == newItem.distanceInMeters
+                        && oldItem.duration == newItem.duration
+                        && oldItem.timestamp == newItem.timestamp
             }
         }
     }
 
-    private val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+    @Inject
+    lateinit var dateFormat: SimpleDateFormat
 
     inner class RunViewHolder(private val binding: CardRunBinding) : RecyclerView.ViewHolder(binding.root) {
 

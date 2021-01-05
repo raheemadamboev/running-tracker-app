@@ -10,6 +10,8 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import xyz.teamgravity.runningtracker.helper.constants.Preferences
 import xyz.teamgravity.runningtracker.viewmodel.MyDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -41,4 +43,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideIsSetUp(shp: SharedPreferences) = shp.getBoolean(Preferences.IS_SET_UP, false)
+
+    @Singleton
+    @Provides
+    fun provideDateFormat() = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
 }
