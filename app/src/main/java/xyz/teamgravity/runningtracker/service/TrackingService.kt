@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.helper.constants.Notifications
 import xyz.teamgravity.runningtracker.helper.util.Helper
-import xyz.teamgravity.runningtracker.injection.App
 import javax.inject.Inject
 
 typealias Polyline = MutableList<LatLng>
@@ -90,21 +89,17 @@ class TrackingService : LifecycleService() {
                 ACTION_START_OR_RESUME -> {
                     if (isFirstRun) {
                         startForegroundService()
-                        println("debug: Started service")
                         isFirstRun = false
                     } else {
                         startTimer()
-                        println("debug: Resumed service")
                     }
                 }
 
                 ACTION_PAUSE -> {
                     pauseService()
-                    println("debug: Paused service")
                 }
 
                 ACTION_STOP -> {
-                    println("debug: Stopped service")
                     killService()
                 }
             }
@@ -160,7 +155,7 @@ class TrackingService : LifecycleService() {
 
         currentNotificationBuilder = baseNotificationBuilder
             .addAction(
-                R.drawable.ic_pause,
+                if (isTracking) R.drawable.ic_pause else R.drawable.ic_play,
                 if (isTracking) resources.getString(R.string.pause) else resources.getString(R.string.resume),
                 pendingIntent
             )
@@ -212,7 +207,6 @@ class TrackingService : LifecycleService() {
                 result?.locations?.let { locations ->
                     for (location in locations) {
                         addPathPoint(location)
-                        println("debug: ${location.altitude}, ${location.longitude}")
                     }
                 }
             }
@@ -255,6 +249,7 @@ class TrackingService : LifecycleService() {
         }
     }
 
+    // pause service
     private fun pauseService() {
         isTracking.postValue(false)
         timerIsEnabled = false
