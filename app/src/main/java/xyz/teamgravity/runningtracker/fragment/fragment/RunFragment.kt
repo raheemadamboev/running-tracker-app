@@ -43,6 +43,29 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.let { activity ->
+            recyclerView()
+            button()
+            requestPermissions(activity)
+        }
+    }
+
+    private fun recyclerView() {
+        adapter = RunAdapter()
+        binding.recyclerView.adapter = adapter
+
+        runViewModel.runs.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+    }
+
+    private fun button() {
+        onFilterSpinner()
+        onRun()
+    }
+
+    // filter spinner
+    private fun onFilterSpinner() {
         binding.filterSpinner.apply {
             when (runViewModel.sortType) {
                 RunSortType.DATE -> setSelection(0)
@@ -54,7 +77,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    when(position) {
+                    when (position) {
                         0 -> runViewModel.sortRuns(RunSortType.DATE)
                         1 -> runViewModel.sortRuns(RunSortType.DURATION)
                         2 -> runViewModel.sortRuns(RunSortType.DISTANCE)
@@ -67,23 +90,11 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 }
             }
         }
-
-        activity?.let { activity ->
-            requestPermissions(activity)
-            recyclerView()
-        }
-
-        binding.runB.setOnClickListener {
-            findNavController().navigate(RunFragmentDirections.actionRunFragmentToTrackingFragment())
-        }
     }
 
-    private fun recyclerView() {
-        adapter = RunAdapter()
-        binding.recyclerView.adapter = adapter
-
-        runViewModel.runs.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+    private fun onRun() {
+        binding.runB.setOnClickListener {
+            findNavController().navigate(RunFragmentDirections.actionRunFragmentToTrackingFragment())
         }
     }
 
@@ -120,9 +131,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
         } else {
-            activity?.let { activity ->
-                requestPermissions(activity)
-            }
+            activity?.let { requestPermissions(it) }
         }
     }
 
