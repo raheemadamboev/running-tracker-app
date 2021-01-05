@@ -19,7 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="DATE"
         app:layout_constraintEnd_toStartOf="@id/duration_t"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/run_i" />
@@ -29,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TIME"
         app:layout_constraintEnd_toStartOf="@id/distance_t"
         app:layout_constraintStart_toEndOf="@id/date_t"
         app:layout_constraintTop_toBottomOf="@id/run_i" />
@@ -39,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="DISTANCE"
         app:layout_constraintEnd_toStartOf="@id/average_speed_t"
         app:layout_constraintStart_toEndOf="@id/duration_t"
         app:layout_constraintTop_toBottomOf="@id/run_i" />
@@ -49,7 +46,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="AVGSPEED"
         app:layout_constraintEnd_toStartOf="@id/calories_t"
         app:layout_constraintStart_toEndOf="@id/distance_t"
         app:layout_constraintTop_toBottomOf="@id/run_i" />
@@ -59,7 +55,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="CALORIES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/average_speed_t"
         app:layout_constraintTop_toBottomOf="@id/run_i" />

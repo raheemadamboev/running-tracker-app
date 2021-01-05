@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import xyz.teamgravity.runningtracker.R
+import xyz.teamgravity.runningtracker.helper.constants.Notifications
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.injection.App
 import javax.inject.Inject
@@ -164,7 +165,7 @@ class TrackingService : LifecycleService() {
                 pendingIntent
             )
 
-        notificationManager.notify(App.NOTIFICATION_ID, currentNotificationBuilder.build())
+        notificationManager.notify(Notifications.RUN_NOTIFICATION_ID, currentNotificationBuilder.build())
     }
 
     // stop service
@@ -241,7 +242,7 @@ class TrackingService : LifecycleService() {
 
         isTracking.postValue(true)
 
-        startForeground(App.NOTIFICATION_ID, baseNotificationBuilder.build())
+        startForeground(Notifications.RUN_NOTIFICATION_ID, baseNotificationBuilder.build())
 
         // update notification
         timeRunInSeconds.observe(this) {
@@ -249,7 +250,7 @@ class TrackingService : LifecycleService() {
                 val notification = currentNotificationBuilder
                     .setContentText(Helper.formatStopwatch(it * 1000L))
 
-                notificationManager.notify(App.NOTIFICATION_ID, notification.build())
+                notificationManager.notify(Notifications.RUN_NOTIFICATION_ID, notification.build())
             }
         }
     }

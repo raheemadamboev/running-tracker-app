@@ -14,6 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.activity.MainActivity
+import xyz.teamgravity.runningtracker.helper.constants.Notifications
 import xyz.teamgravity.runningtracker.service.TrackingService
 
 @Module
@@ -44,7 +45,7 @@ object ServiceModule {
         @ApplicationContext app: Context,
         pendingIntent: PendingIntent
     ): NotificationCompat.Builder =
-        NotificationCompat.Builder(app, App.NOTIFICATION_CHANNEL_ID)
+        NotificationCompat.Builder(app, Notifications.NOTIFICATION_CHANNEL_ID)
             .setAutoCancel(false)
             .setOngoing(true)
             .setSmallIcon(R.drawable.ic_run)
