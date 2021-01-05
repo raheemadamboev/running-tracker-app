@@ -27,35 +27,48 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        lateInIt()
+        navigateTrackingFragment(intent)
+        navigationView()
+        navigationChange()
+    }
+
+    private fun lateInIt() {
         // find nav controller in activity
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_main) as NavHostFragment
         navController = navHostFragment.findNavController()
+    }
 
-        navigateTrackingFragment(intent)
+    private fun navigationView() {
+        binding.apply {
+            navigationView.setupWithNavController(navController)
+            navigationView.setOnNavigationItemReselectedListener { /* NO - OP */ }
+        }
+    }
 
-        // set up navigation bottom
-        binding.bottomNavigationView.setupWithNavController(navController)
-        binding.bottomNavigationView.setOnNavigationItemReselectedListener { /* NO - OP */ }
-
-        // in order to hide bottom navigation view from certain fragments
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment ->
-                    binding.bottomNavigationView.visibility = View.VISIBLE
-                else ->
-                    binding.bottomNavigationView.visibility = View.GONE
+    // in order to hide bottom navigation view from certain fragments
+    private fun navigationChange() {
+        binding.apply {
+            navController.addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment ->
+                        navigationView.visibility = View.VISIBLE
+                    else ->
+                        navigationView.visibility = View.GONE
+                }
             }
+        }
+    }
+
+    // if notification touched go to tracking fragment
+    private fun navigateTrackingFragment(intent: Intent?) {
+        if (intent?.action == TrackingService.ACTION_SHOW_TRACKING_FRAGMENT) {
+            navController.navigate(NavGraphDirections.actionGlobalTrackingFragment())
         }
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         navigateTrackingFragment(intent)
-    }
-
-    private fun navigateTrackingFragment(intent: Intent?) {
-        if (intent?.action == TrackingService.ACTION_SHOW_TRACKING_FRAGMENT) {
-            navController.navigate(NavGraphDirections.actionGlobalTrackingFragment())
-        }
     }
 }
