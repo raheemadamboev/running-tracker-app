@@ -2,6 +2,7 @@ package xyz.teamgravity.runningtracker.fragment.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
@@ -16,6 +17,7 @@ import java.util.*
 @SuppressLint("ViewConstructor")
 class RunDialog(
     private val runs: List<RunModel>,
+    private val res: Resources,
     context: Context,
     layoutId: Int
 ) : MarkerView(context, layoutId) {
@@ -29,14 +31,18 @@ class RunDialog(
 
             rootView.apply {
                 findViewById<MaterialTextView>(R.id.date_t).text = dateFormat.format(Date(runs[runId].timestamp))
-                findViewById<MaterialTextView>(R.id.average_speed_t).text = "${runs[runId].averageSpeedInKmh} km/h"
-                findViewById<MaterialTextView>(R.id.distance_t).text = "${runs[runId].distanceInMeters / 1000F} km"
+                findViewById<MaterialTextView>(R.id.average_speed_t).text =
+                    Helper.addTwoString(runs[runId].averageSpeedInKmh.toString(), res.getString(R.string.km_hour))
+                findViewById<MaterialTextView>(R.id.distance_t).text =
+                    Helper.addTwoString((runs[runId].distanceInMeters / 1000F).toString(), res.getString(R.string.km))
                 findViewById<MaterialTextView>(R.id.duration_t).text = Helper.formatStopwatch(runs[runId].duration)
-                findViewById<MaterialTextView>(R.id.calories_t).text = "${runs[runId].caloriesBurned} kcal"
+                findViewById<MaterialTextView>(R.id.calories_t).text =
+                    Helper.addTwoString((runs[runId].caloriesBurned).toString(), res.getString(R.string.kcal))
             }
         }
     }
 
+    // to make marker view show full layout
     override fun getOffset(): MPPointF {
         return MPPointF(-width / 2F, -height.toFloat())
     }
