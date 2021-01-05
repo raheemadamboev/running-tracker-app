@@ -42,7 +42,7 @@ class StatisticsFragment : Fragment() {
 
             statisticsViewModel.getTotalDistanceInMeters().observe(viewLifecycleOwner) {
                 it?.let { totalDistance ->
-                    totalDistanceT.text = "${round((totalDistance * 1000F) * 10F) / 10F} km"
+                    totalDistanceT.text = "${round((totalDistance / 1000F) * 10F) / 10F} km"
                 }
             }
 
