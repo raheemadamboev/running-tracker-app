@@ -21,6 +21,7 @@
 
     <!-- Settings fragment -->
     <string name="apply_changes">Apply changes</string>
+    <string name="successfully_saved">Saved successfully</string>
 
     <!-- Statistics fragment -->
     <string name="total_distance">Total distance</string>
