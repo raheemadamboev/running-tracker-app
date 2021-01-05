@@ -22,6 +22,7 @@ import xyz.teamgravity.runningtracker.model.RunModel
 import xyz.teamgravity.runningtracker.service.Polyline
 import xyz.teamgravity.runningtracker.service.TrackingService
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
+import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -43,7 +44,9 @@ class TrackingFragment : Fragment() {
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var currentTimeInMillis = 0L
-    private var weight = 80F
+
+    @set:Inject
+    var weight = 80F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)

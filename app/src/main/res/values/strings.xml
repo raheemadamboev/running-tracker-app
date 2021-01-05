@@ -9,6 +9,7 @@
 
     <!-- Run fragment -->
     <string name="sort_by">Sort by</string>
+    <string name="permission_reminder">You need to grant these permissions to use this app</string>
 
     <!-- Set Up fragment -->
     <string name="welcome_text">Welcome!\nPlease enter your name and weight</string>
@@ -16,6 +17,7 @@
     <string name="your_weight">Your weight</string>
     <string name="kg">kg</string>
     <string name="continue_text">continue</string>
+    <string name="error_field">Please fill this field</string>
 
     <!-- Settings fragment -->
     <string name="apply_changes">Apply changes</string>
@@ -41,8 +43,6 @@
     <string name="no">No</string>
     <string name="run_saved">Run saved successfully</string>
 
-    <!-- Set up fragment -->
-    <string name="permission_reminder">You need to grant these permissions to use this app</string>
 
     <!-- Tracking service -->
     <string name="resume">Resume</string>

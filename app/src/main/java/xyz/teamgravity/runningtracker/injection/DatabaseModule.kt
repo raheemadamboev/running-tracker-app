@@ -1,6 +1,7 @@
 package xyz.teamgravity.runningtracker.injection
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -28,4 +29,16 @@ object DatabaseModule {
     @Provides
     fun provideSharedPreferences(@ApplicationContext app: Context) =
         app.getSharedPreferences(Preferences.NAME, Context.MODE_PRIVATE)
+
+    @Singleton
+    @Provides
+    fun provideUserName(shp: SharedPreferences) = shp.getString(Preferences.USER_NAME, "") ?: ""
+
+    @Singleton
+    @Provides
+    fun provideUserWeight(shp: SharedPreferences) = shp.getFloat(Preferences.USER_WEIGHT, 0F)
+
+    @Singleton
+    @Provides
+    fun provideIsSetUp(shp: SharedPreferences) = shp.getBoolean(Preferences.IS_SET_UP, false)
 }
