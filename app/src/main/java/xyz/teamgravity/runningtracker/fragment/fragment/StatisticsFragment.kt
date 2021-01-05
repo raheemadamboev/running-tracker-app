@@ -120,7 +120,7 @@ class StatisticsFragment : Fragment() {
                     color = ContextCompat.getColor(activity, R.color.yellow)
                 }
                 barChart.data = BarData(barDataSet)
-                barChart.marker = RunDialog(it.reversed(), activity, R.layout.dialog_run)
+                barChart.marker = RunDialog(it.reversed(), resources, activity, R.layout.dialog_run)
                 barChart.invalidate()
             }
         }

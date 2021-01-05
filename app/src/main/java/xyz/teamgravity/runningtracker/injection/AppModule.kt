@@ -50,5 +50,5 @@ object AppModule {
     fun provideDateFormat() = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
 
     @Provides
-    fun provideRunAdapter(dateFormat: SimpleDateFormat) = RunAdapter(dateFormat)
+    fun provideRunAdapter(@ApplicationContext app: Context, dateFormat: SimpleDateFormat) = RunAdapter(dateFormat, app.resources)
 }

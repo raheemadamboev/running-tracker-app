@@ -1,12 +1,13 @@
 package xyz.teamgravity.runningtracker.helper.adapter
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import dagger.hilt.android.AndroidEntryPoint
+import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.CardRunBinding
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.model.RunModel
@@ -15,7 +16,8 @@ import java.util.*
 import javax.inject.Inject
 
 class RunAdapter @Inject constructor(
-    private val dateFormat: SimpleDateFormat
+    private val dateFormat: SimpleDateFormat,
+    private val res: Resources
 ) : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -43,11 +45,10 @@ class RunAdapter @Inject constructor(
                     .into(runI)
 
                 dateT.text = dateFormat.format(Date(model.timestamp))
-                // TODO proper
-                averageSpeedT.text = "${model.averageSpeedInKmh} km/h"
-                distanceT.text = "${model.distanceInMeters / 1000F} km"
+                averageSpeedT.text = Helper.addTwoString((model.averageSpeedInKmh).toString(), res.getString(R.string.km_hour))
+                distanceT.text = Helper.addTwoString((model.distanceInMeters / 1000F).toString(), res.getString(R.string.km))
                 durationT.text = Helper.formatStopwatch(model.duration)
-                caloriesT.text = "${model.caloriesBurned} kcal"
+                caloriesT.text = Helper.addTwoString((model.caloriesBurned).toString(), res.getString(R.string.kcal))
             }
         }
     }
