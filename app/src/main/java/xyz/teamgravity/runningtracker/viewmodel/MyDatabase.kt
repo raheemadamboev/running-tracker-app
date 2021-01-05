@@ -14,6 +14,4 @@ abstract class MyDatabase : RoomDatabase() {
     }
 
     abstract fun runDao(): RunDao
-
-    // we use dagger for the singleton shit
 }
