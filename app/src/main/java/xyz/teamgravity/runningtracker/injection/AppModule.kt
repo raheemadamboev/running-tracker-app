@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import xyz.teamgravity.runningtracker.helper.adapter.RunAdapter
 import xyz.teamgravity.runningtracker.helper.constants.Preferences
 import xyz.teamgravity.runningtracker.viewmodel.MyDatabase
 import java.text.SimpleDateFormat
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
-object DatabaseModule {
+object AppModule {
 
     @Singleton
     @Provides
@@ -47,4 +48,7 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDateFormat() = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+
+    @Provides
+    fun provideRunAdapter(dateFormat: SimpleDateFormat) = RunAdapter(dateFormat)
 }

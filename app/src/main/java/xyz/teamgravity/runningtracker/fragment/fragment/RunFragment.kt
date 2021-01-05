@@ -20,6 +20,7 @@ import xyz.teamgravity.runningtracker.helper.adapter.RunAdapter
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.viewmodel.RunSortType
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -32,7 +33,8 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val runViewModel by viewModels<RunViewModel>()
 
-    private lateinit var adapter: RunAdapter
+    @Inject
+    lateinit var adapter: RunAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRunBinding.inflate(inflater, container, false)
@@ -51,7 +53,6 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun recyclerView() {
-        adapter = RunAdapter()
         binding.recyclerView.adapter = adapter
 
         runViewModel.runs.observe(viewLifecycleOwner) {

@@ -14,8 +14,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class RunAdapter : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK) {
+class RunAdapter @Inject constructor(
+    private val dateFormat: SimpleDateFormat
+) : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RunModel>() {
@@ -32,9 +33,6 @@ class RunAdapter : ListAdapter<RunModel, RunAdapter.RunViewHolder>(DIFF_CALLBACK
             }
         }
     }
-
-    @Inject
-    lateinit var dateFormat: SimpleDateFormat
 
     inner class RunViewHolder(private val binding: CardRunBinding) : RecyclerView.ViewHolder(binding.root) {
 
