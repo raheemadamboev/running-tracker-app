@@ -16,7 +16,7 @@ import com.github.mikephil.charting.data.BarEntry
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentStatisticsBinding
-import xyz.teamgravity.runningtracker.helper.DialogRun
+import xyz.teamgravity.runningtracker.fragment.dialog.RunDialog
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.viewmodel.StatisticsViewModel
 import kotlin.math.round
@@ -120,7 +120,7 @@ class StatisticsFragment : Fragment() {
                     color = ContextCompat.getColor(activity, R.color.yellow)
                 }
                 barChart.data = BarData(barDataSet)
-                barChart.marker = DialogRun(it.reversed(), activity, R.layout.dialog_run)
+                barChart.marker = RunDialog(it.reversed(), activity, R.layout.dialog_run)
                 barChart.invalidate()
             }
         }

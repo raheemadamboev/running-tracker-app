@@ -1,5 +1,6 @@
-package xyz.teamgravity.runningtracker.helper
+package xyz.teamgravity.runningtracker.fragment.dialog
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
@@ -12,7 +13,8 @@ import xyz.teamgravity.runningtracker.model.RunModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class DialogRun(
+@SuppressLint("ViewConstructor")
+class RunDialog(
     private val runs: List<RunModel>,
     context: Context,
     layoutId: Int

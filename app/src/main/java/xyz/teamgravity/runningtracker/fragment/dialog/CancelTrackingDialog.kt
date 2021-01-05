@@ -16,13 +16,13 @@ class CancelTrackingDialog : DialogFragment() {
             .setMessage(R.string.wanna_cancel_run)
             .setIcon(R.drawable.ic_delete)
             .setPositiveButton(R.string.yes) { _, _ ->
-                listener?.onTrackingCancelDialogPositiveClick()
+                listener?.onCancelTrackingPositiveClick()
             }.setNegativeButton(R.string.no) { _, _ ->
 
             }.create()
     }
 
     interface OnCancelTrackingListener {
-        fun onTrackingCancelDialogPositiveClick()
+        fun onCancelTrackingPositiveClick()
     }
 }

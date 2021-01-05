@@ -248,7 +248,7 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     }
 
     // dialog positive button
-    override fun onTrackingCancelDialogPositiveClick() {
+    override fun onCancelTrackingPositiveClick() {
         activity?.let { stopRun(it) }
     }
 
