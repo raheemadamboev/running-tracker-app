@@ -1,4 +1,4 @@
-package xyz.teamgravity.runningtracker.fragment
+package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.content.Intent
 import android.graphics.Color
@@ -12,11 +12,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
+import xyz.teamgravity.runningtracker.fragment.dialog.CancelTrackingDialog
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.model.RunModel
 import xyz.teamgravity.runningtracker.service.Polyline
@@ -26,11 +26,13 @@ import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
-class TrackingFragment : Fragment() {
+class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListener {
     companion object {
         private const val POLYLINE_COLOR = Color.RED
         private const val POLYLINE_WIDTH = 8F
         private const val MAP_ZOOM = 17F
+
+        private const val CANCEL_DIALOG = "cancelDialog"
     }
 
     private var _binding: FragmentTrackingBinding? = null
@@ -63,6 +65,11 @@ class TrackingFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding.apply {
+
+            if (savedInstanceState != null) {
+                val dialog = parentFragmentManager.findFragmentByTag(CANCEL_DIALOG) as CancelTrackingDialog?
+                dialog?.listener = this@TrackingFragment
+            }
 
             mapView.getMapAsync { googleMap ->
                 map = googleMap
@@ -167,13 +174,13 @@ class TrackingFragment : Fragment() {
         if (isAdded) {
             binding.apply {
                 this@TrackingFragment.isTracking = isTracking
-                if (isTracking) {
-                    startB.text = resources.getString(R.string.stop)
-                    finishB.visibility = View.GONE
-                } else {
-                    menu?.getItem(0)?.isVisible = true
+                if (!isTracking && currentTimeInMillis > 0L) {
                     startB.text = resources.getString(R.string.start)
                     finishB.visibility = View.VISIBLE
+                } else if (isTracking) {
+                    startB.text = resources.getString(R.string.stop)
+                    menu?.getItem(0)?.isVisible = true
+                    finishB.visibility = View.GONE
                 }
             }
         }
@@ -236,31 +243,28 @@ class TrackingFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.cancel_tracking ->
-                activity?.let {
-                    showCancelDialog(it)
-                }
+            R.id.cancel_tracking -> {
+                val dialog = CancelTrackingDialog()
+                dialog.listener = this
+                dialog.show(parentFragmentManager, CANCEL_DIALOG)
+            }
+
         }
         return super.onOptionsItemSelected(item)
     }
 
-    // show cancel dialog
-    private fun showCancelDialog(activity: FragmentActivity) {
-        MaterialAlertDialogBuilder(activity, R.style.AlertDialogTheme)
-            .setTitle(R.string.cancel_run)
-            .setMessage(R.string.wanna_cancel_run)
-            .setIcon(R.drawable.ic_delete)
-            .setPositiveButton(R.string.yes) { _, _ ->
-                stopRun(activity)
-            }.setNegativeButton(R.string.no) { _, _ ->
-
-            }.show()
-    }
-
     // stop run
     private fun stopRun(activity: FragmentActivity) {
+        binding.timerT.text = resources.getString(R.string.total_time_start)
         commandService(activity, TrackingService.ACTION_STOP)
         findNavController().navigate(TrackingFragmentDirections.actionTrackingFragmentToRunFragment())
+    }
+
+    // dialog positive button
+    override fun onPositive() {
+        activity?.let {
+            stopRun(it)
+        }
     }
 
     override fun onResume() {

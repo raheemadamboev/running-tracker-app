@@ -1,4 +1,4 @@
-package xyz.teamgravity.runningtracker.fragment
+package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textview.MaterialTextView
 import dagger.hilt.android.AndroidEntryPoint

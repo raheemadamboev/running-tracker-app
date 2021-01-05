@@ -1,4 +1,4 @@
-package xyz.teamgravity.runningtracker.fragment
+package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.Manifest
 import android.os.Build

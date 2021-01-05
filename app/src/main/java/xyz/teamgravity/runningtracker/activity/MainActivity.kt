@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         // set up navigation bottom
         binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setOnNavigationItemReselectedListener { /* NO - OP */ }
 
         // in order to hide bottom navigation view from certain fragments
         navController.addOnDestinationChangedListener { _, destination, _ ->

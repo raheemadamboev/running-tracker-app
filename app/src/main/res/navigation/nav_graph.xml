@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/runFragment"
-        android:name="xyz.teamgravity.runningtracker.fragment.RunFragment"
+        android:name="xyz.teamgravity.runningtracker.fragment.fragment.RunFragment"
         android:label="fragment_run"
         tools:layout="@layout/fragment_run">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/setUpFragment"
-        android:name="xyz.teamgravity.runningtracker.fragment.SetUpFragment"
+        android:name="xyz.teamgravity.runningtracker.fragment.fragment.SetUpFragment"
         android:label="fragment_set_up"
         tools:layout="@layout/fragment_set_up">
         <action
@@ -30,17 +30,17 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="xyz.teamgravity.runningtracker.fragment.SettingsFragment"
+        android:name="xyz.teamgravity.runningtracker.fragment.fragment.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="xyz.teamgravity.runningtracker.fragment.StatisticsFragment"
+        android:name="xyz.teamgravity.runningtracker.fragment.fragment.StatisticsFragment"
         android:label="fragment_statistics"
         tools:layout="@layout/fragment_statistics" />
     <fragment
         android:id="@+id/trackingFragment"
-        android:name="xyz.teamgravity.runningtracker.fragment.TrackingFragment"
+        android:name="xyz.teamgravity.runningtracker.fragment.fragment.TrackingFragment"
         android:label="fragment_tracking"
         tools:layout="@layout/fragment_tracking">
         <action
