@@ -14,6 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentSetUpBinding
 import xyz.teamgravity.runningtracker.helper.constants.Preferences
+import xyz.teamgravity.runningtracker.helper.util.Helper
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -21,6 +22,8 @@ class SetUpFragment : Fragment() {
 
     private var _binding: FragmentSetUpBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var navOptions: NavOptions
 
     @Inject
     lateinit var shp: SharedPreferences
@@ -37,13 +40,19 @@ class SetUpFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        if (isSetUp) {
-            val navOptions = NavOptions.Builder().setPopUpTo(R.id.setUpFragment, true).build()
-            findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(), navOptions)
-        }
+        println("debug: $isSetUp")
+        lateInIt()
 
-        activity?.let { activity ->
-            button(activity)
+        activity?.let {
+            button(it)
+        }
+    }
+
+    private fun lateInIt() {
+        navOptions = NavOptions.Builder().setPopUpTo(R.id.setUpFragment, true).build()
+
+        if (isSetUp) {
+            findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(), navOptions)
         }
     }
 
@@ -82,9 +91,9 @@ class SetUpFragment : Fragment() {
                     .putBoolean(Preferences.IS_SET_UP, true)
                     .apply()
 
-                activity.findViewById<MaterialTextView>(R.id.toolbar_t).text = "Let's go $name"
+                activity.findViewById<MaterialTextView>(R.id.toolbar_t).text =
+                    Helper.addTwoString(resources.getString(R.string.lets_go), name)
 
-                val navOptions = NavOptions.Builder().setPopUpTo(R.id.setUpFragment, true).build()
                 findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(), navOptions)
             }
         }
