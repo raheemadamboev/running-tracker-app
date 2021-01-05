@@ -35,7 +35,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filter_spinner" />
 
@@ -51,6 +50,6 @@
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:rippleColor="@android:color/white"
-        app:tint="@android:color/black" />
+        app:rippleColor="@color/white"
+        app:tint="@color/black" />
 </androidx.constraintlayout.widget.ConstraintLayout>

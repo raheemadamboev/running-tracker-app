@@ -43,10 +43,10 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activity?.let { activity ->
+        activity?.let {
             recyclerView()
             button()
-            requestPermissions(activity)
+            requestPermissions(it)
         }
     }
 
