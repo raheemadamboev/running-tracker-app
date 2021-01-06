@@ -16,12 +16,6 @@ class RunRepository @Inject constructor(
         }
     }
 
-    fun delete(run: RunModel) {
-        CoroutineScope(Dispatchers.IO).launch {
-            dao.delete(run)
-        }
-    }
-
     fun getAllRunsSortedByDate() = dao.getAllRunsSortedByDate()
 
     fun getAllRunsSortedByDuration() = dao.getAllRunsSortedByDuration()
