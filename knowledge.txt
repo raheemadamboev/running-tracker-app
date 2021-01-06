@@ -1,21 +1,21 @@
-Dependency Injection (Hilt) easy and simple. It saves time and reduces boilerplate code.
-Kotlin objects
-Kotlin enums
-Spinner entries from xml
-Bottom navigation view reselect protection
-Jetpack Navigation Component
-Sharedpreferences multiple edit at once
-Barcharts
-Guidelines in constraint layout
-Google maps
-Custom dialog with activity recreation listener
-Typeconverters in room to convert from bitmap to byte array
-Viewmodelscope coroutine to use in view model lifecycle scope
-Service, foreground service, dealing with service intent actions
-EasyPremissions
-Notifications action remove
-Preparing app that can survive from config changes
-Dao insert onconflict strategy
-Sqlite functions
-Typealias custom types literally naming
-Coroutine stopwatch
+- Dependency Injection (Hilt) easy and simple. It saves time and reduces boilerplate code.
+- Kotlin objects
+- Kotlin enums
+- Spinner entries from xml
+- Bottom navigation view reselect protection
+- Jetpack Navigation Component
+- Sharedpreferences multiple edit at once
+- Barcharts
+- Guidelines in constraint layout
+- Google maps
+- Custom dialog with activity recreation listener
+- Typeconverters in room to convert from bitmap to byte array
+- Viewmodelscope coroutine to use in view model lifecycle scope
+- Service, foreground service, dealing with service intent actions
+- EasyPremissions
+- Notifications action remove
+- Preparing app that can survive from config changes
+- Dao insert onconflict strategy
+- Sqlite functions
+- Typealias custom types literally naming
+- Coroutine stopwatch
