@@ -13,6 +13,8 @@ Functional and light-weight app to track running events. App can track running e
 
 <img src="https://i.imgur.com/ID6t64v.jpg" alt="Italian Trulli" width="200" height="434"> <img src="https://i.imgur.com/HsFkNBt.jpg" alt="Italian Trulli" width="200" height="434"> <img src="https://i.imgur.com/PR9IQ0g.jpg" alt="Italian Trulli" width="200" height="434"> <img src="https://i.imgur.com/DrR27Cr.jpg" alt="Italian Trulli" width="200" height="434">
 
+**Do not forget to add your google map key to string resources in order to use code**
+
 **Key points:**
 
 - Dependency Injection (Hilt)
