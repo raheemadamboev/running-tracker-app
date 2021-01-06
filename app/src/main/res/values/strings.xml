@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Running Tracker</string>
-    <string name="google_maps_key">AIzaSyCWdcC4_lu7CbvSY6oCftjLEbSjrEnSM18</string>
 
     <!-- Bottom nav menu -->
     <string name="your_runs">Your runs</string>
