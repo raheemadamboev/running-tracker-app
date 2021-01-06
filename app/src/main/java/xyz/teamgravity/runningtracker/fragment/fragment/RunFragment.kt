@@ -1,6 +1,7 @@
 package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.Manifest
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +11,16 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentRunBinding
 import xyz.teamgravity.runningtracker.helper.adapter.RunAdapter
+import xyz.teamgravity.runningtracker.helper.constants.Preferences
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.viewmodel.RunSortType
 import xyz.teamgravity.runningtracker.viewmodel.RunViewModel
@@ -32,9 +36,13 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val binding get() = _binding!!
 
     private val runViewModel by viewModels<RunViewModel>()
+    private val args by navArgs<RunFragmentArgs>()
 
     @Inject
     lateinit var adapter: RunAdapter
+
+    @Inject
+    lateinit var shp: SharedPreferences
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRunBinding.inflate(inflater, container, false)
@@ -44,6 +52,11 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        val isSetUp = shp.getBoolean(Preferences.IS_SET_UP, false)
+        if (!args.isSetUp && !isSetUp) {
+            findNavController().navigate(RunFragmentDirections.actionRunFragmentToSetUpFragment())
+        }
 
         activity?.let {
             recyclerView()

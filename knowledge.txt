@@ -1,0 +1,21 @@
+dependency injection
+objects
+enums
+spinner entries
+navigation bottom reselect protection
+Navigation components
+sharedpreferences multiple edit
+barcharts
+guidelines in constraint layout
+google maps
+custom dialog with activity recreation listener
+typeconverters in room to convert from bitmap to byte array
+viewmodelscope coroutine to use in view model lifecycle scope
+service, foreground service, dealing with service intent actions
+EasyPremissions
+Notifications action remove
+preparing app that can survive from config changes
+dao inser onconflict strategy
+Sqlite functions
+typealias custom types literally naming
+coroutine stopwatch

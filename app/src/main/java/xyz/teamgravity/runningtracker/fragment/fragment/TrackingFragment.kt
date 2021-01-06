@@ -1,6 +1,7 @@
 package xyz.teamgravity.runningtracker.fragment.fragment
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
 import xyz.teamgravity.runningtracker.fragment.dialog.CancelTrackingDialog
 import xyz.teamgravity.runningtracker.helper.constants.MapGoogle
+import xyz.teamgravity.runningtracker.helper.constants.Preferences
 import xyz.teamgravity.runningtracker.helper.util.Helper
 import xyz.teamgravity.runningtracker.model.RunModel
 import xyz.teamgravity.runningtracker.service.Polyline
@@ -36,15 +38,16 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
 
     private val runViewModel by viewModels<RunViewModel>()
 
+    @Inject
+    lateinit var shp: SharedPreferences
+
     private var map: GoogleMap? = null
     private var menu: Menu? = null
 
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
     private var currentTimeInMillis = 0L
-
-    @set:Inject
-    var weight = 75F
+    private var weight = 1F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
@@ -64,11 +67,16 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
             }
 
             activity?.let {
+                lateInIt()
                 googleMap()
                 button(it)
                 subscribeToObservers()
             }
         }
+    }
+
+    private fun lateInIt() {
+        weight = shp.getFloat(Preferences.USER_WEIGHT, 1F)
     }
 
     // set google map

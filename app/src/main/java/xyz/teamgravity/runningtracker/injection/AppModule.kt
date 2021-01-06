@@ -35,18 +35,6 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideUserName(shp: SharedPreferences) = shp.getString(Preferences.USER_NAME, "") ?: ""
-
-    @Singleton
-    @Provides
-    fun provideUserWeight(shp: SharedPreferences) = shp.getFloat(Preferences.USER_WEIGHT, 75F)
-
-    @Singleton
-    @Provides
-    fun provideIsSetUp(shp: SharedPreferences) = shp.getBoolean(Preferences.IS_SET_UP, false)
-
-    @Singleton
-    @Provides
     fun provideDateFormat() = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
 
     @Provides

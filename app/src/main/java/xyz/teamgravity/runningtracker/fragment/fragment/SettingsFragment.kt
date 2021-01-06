@@ -25,12 +25,9 @@ class SettingsFragment : Fragment() {
     @Inject
     lateinit var shp: SharedPreferences
 
-    @Inject
-    lateinit var name: String
+    private lateinit var username: String
 
-    @set:Inject
-    var weight = 0F
-
+    private var weight = 1F
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
@@ -42,14 +39,20 @@ class SettingsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         activity?.let {
+            lateInIt()
             updateUI()
             button(it)
         }
     }
 
+    private fun lateInIt() {
+        username = shp.getString(Preferences.USER_NAME, "") ?: ""
+        weight = shp.getFloat(Preferences.USER_WEIGHT, 1F)
+    }
+
     private fun updateUI() {
         binding.apply {
-            nameField.editText?.setText(name)
+            nameField.editText?.setText(username)
             weightField.editText?.setText(weight.toString())
         }
     }

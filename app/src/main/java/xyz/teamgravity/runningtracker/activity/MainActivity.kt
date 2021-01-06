@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigationView() {
         binding.apply {
-            navigationView.setupWithNavController(navController)
+             navigationView.setupWithNavController(navController)
             navigationView.setOnNavigationItemReselectedListener { /* NO - OP */ }
         }
     }

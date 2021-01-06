@@ -23,13 +23,8 @@ class SetUpFragment : Fragment() {
     private var _binding: FragmentSetUpBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var navOptions: NavOptions
-
     @Inject
     lateinit var shp: SharedPreferences
-
-    @set:Inject
-    var isSetUp = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSetUpBinding.inflate(inflater, container, false)
@@ -40,19 +35,8 @@ class SetUpFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        println("debug: $isSetUp")
-        lateInIt()
-
         activity?.let {
             button(it)
-        }
-    }
-
-    private fun lateInIt() {
-        navOptions = NavOptions.Builder().setPopUpTo(R.id.setUpFragment, true).build()
-
-        if (isSetUp) {
-            findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(), navOptions)
         }
     }
 
@@ -94,7 +78,7 @@ class SetUpFragment : Fragment() {
                 activity.findViewById<MaterialTextView>(R.id.toolbar_t).text =
                     Helper.addTwoString(resources.getString(R.string.lets_go), name)
 
-                findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(), navOptions)
+                findNavController().navigate(SetUpFragmentDirections.actionSetUpFragmentToRunFragment(true))
             }
         }
     }
