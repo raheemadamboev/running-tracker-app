@@ -1,7 +1,9 @@
 package xyz.teamgravity.runningtracker.fragment.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -17,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import xyz.teamgravity.runningtracker.R
 import xyz.teamgravity.runningtracker.databinding.FragmentTrackingBinding
 import xyz.teamgravity.runningtracker.fragment.dialog.CancelTrackingDialog
+import xyz.teamgravity.runningtracker.fragment.dialog.GPSDialog
 import xyz.teamgravity.runningtracker.helper.constants.MapGoogle
 import xyz.teamgravity.runningtracker.helper.constants.Preferences
 import xyz.teamgravity.runningtracker.helper.util.Helper
@@ -28,9 +31,10 @@ import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
-class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListener {
+class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListener, GPSDialog.OnGPSListener {
     companion object {
         private const val CANCEL_DIALOG = "cancelDialog"
+        private const val GPS_DIALOG = "gpsDialog"
     }
 
     private var _binding: FragmentTrackingBinding? = null
@@ -40,6 +44,8 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
 
     @Inject
     lateinit var shp: SharedPreferences
+
+    private lateinit var locationManager: LocationManager
 
     private var map: GoogleMap? = null
     private var menu: Menu? = null
@@ -62,12 +68,14 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
         binding.apply {
 
             if (savedInstanceState != null) {
-                val dialog = parentFragmentManager.findFragmentByTag(CANCEL_DIALOG) as CancelTrackingDialog?
-                dialog?.listener = this@TrackingFragment
+                val cancelDialog = parentFragmentManager.findFragmentByTag(CANCEL_DIALOG) as CancelTrackingDialog?
+                cancelDialog?.listener = this@TrackingFragment
+                val gpsDialog = parentFragmentManager.findFragmentByTag(GPS_DIALOG) as GPSDialog?
+                gpsDialog?.listener = this@TrackingFragment
             }
 
             activity?.let {
-                lateInIt()
+                lateInIt(it)
                 googleMap()
                 button(it)
                 subscribeToObservers()
@@ -75,8 +83,9 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
         }
     }
 
-    private fun lateInIt() {
+    private fun lateInIt(activity: FragmentActivity) {
         weight = shp.getFloat(Preferences.USER_WEIGHT, 1F)
+        locationManager = activity.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     // set google map
@@ -170,6 +179,15 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
         if (isTracking) {
             commandService(activity, TrackingService.ACTION_PAUSE)
         } else {
+
+            // show enable gps dialog
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                val dialog = GPSDialog()
+                dialog.listener = this
+                dialog.show(parentFragmentManager, GPS_DIALOG)
+                return
+            }
+
             menu?.getItem(0)?.isVisible = true
             commandService(activity, TrackingService.ACTION_START_OR_RESUME)
         }
@@ -258,6 +276,11 @@ class TrackingFragment : Fragment(), CancelTrackingDialog.OnCancelTrackingListen
     // dialog positive button
     override fun onCancelTrackingPositiveClick() {
         activity?.let { stopRun(it) }
+    }
+
+    // enable gps dialog button
+    override fun onGPSPositiveClick() {
+        startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

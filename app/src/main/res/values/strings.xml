@@ -53,4 +53,9 @@
     <!-- Tracking service -->
     <string name="resume">Resume</string>
     <string name="pause">Pause</string>
+
+    <!-- GPS Dialog -->
+    <string name="gps_title">Enable GPS</string>
+    <string name="gps_message">To track your run please enable GPS</string>
+    <string name="enable">Enable</string>
 </resources>
