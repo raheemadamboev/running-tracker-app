@@ -1,4 +1,4 @@
-# running-tracker
+# running-tracker-app
 Android application to track running activities
 
 **Running Tracker**
