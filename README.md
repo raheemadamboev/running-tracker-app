@@ -28,7 +28,6 @@ Functional and light-weight app to track running events. App can track running e
 - Git
 - Material Design
 - Custom views
-- Material Design
 - Barcharts
 - Service
 - EasyPermissions
